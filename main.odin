@@ -38,26 +38,34 @@ init :: proc(val:$T) -> ^List(T){
     return lit
 }
 
+MAXSIZE :: 3   // this is just for test we will use the len property that we will implement later in iterator 
+
 Vec_init :: proc($T:typeid) -> Vec(T){
-    vec := new(Vec(T))
+    vec := Vec(T){}
     vec.data = make([]T,16)
     vec.capacity = 16;
-    vec.rar_data = cast(rawptr)&vec.data
+    vec.rar_data = cast(rawptr)&vec.data[0]     // dangerous cast
     vec.size = 0
 
     vec.next = proc(iter:^Iterator(T)) -> ^T{
         v := iter.size
-        
-        vat := cast(^[]T)iter.rar_data
-        
-        fmt.println(vat)
+        if v >= MAXSIZE {return nil}
+        vat := cast([^]T)iter.rar_data      
         
         iter.size += 1
 
-        return &vat[0]
+        return &vat[v]
     }
-    defer free(vec)
-    return vec^
+    return vec
+}
+
+
+ForEach :: proc(it:^Iterator($T)){ // using generic parameter
+    for {
+        v := it->next()
+        if v == nil{break;}
+        fmt.println(v^)
+    }
 }
 
 main :: proc(){
@@ -65,14 +73,16 @@ main :: proc(){
     a.data[0] = 12;
     a.data[1] = 13;
     a.data[2] = 1331;
-    p := cast([^]int)a.rar_data
+    
+    ForEach(cast(^Iterator(int))&a);
+    
+    b := init(121)
+    b.forward = init(113)
+    b.forward.forward = init(114)
 
-    for i in 7..<10{
-        fmt.println(p[i])
-    }
+    fmt.println("---------------------------------------------------")
 
-    defer delete(a.data)
-    // defer free(&a)
+    ForEach(cast(^Iterator(int))b);
 }
 
 
