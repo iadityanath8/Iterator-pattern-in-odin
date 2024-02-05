@@ -1,5 +1,6 @@
 # Iterator Pattern Experiment in Odin
-# In this example of odin code i implemented data structures with iterator pattern using slices odin execpt linked-list. In odin slices are like a struct involving a capacity,length and a raw pointer [^]T so due to the issue of alignment the example is quite broken but i would suggest using raw pointer for implementing any kind of data structure with working iterator pattern do not for now do not use odins buildin slices although they are very powerfull but in a very low level stuff such as vtable and etc use raw pointer.
+
+In this example of odin code i implemented data structures with iterator pattern using slices odin execpt linked-list. In odin slices are like a struct involving a capacity,length and a raw pointer [^]T so due to the issue of alignment the example is quite broken but i would suggest using raw pointer for implementing any kind of data structure with working iterator pattern do not for now do not use odins buildin slices although they are very powerfull but in a very low level stuff such as vtable and etc use raw pointer.
 
 ## Overview
 
